@@ -1,12 +1,13 @@
 $(document).ready(function () {
-    var topics = ["Football", "Soccer", "Table Tennis", "Basketball", "Golf", "Tennis"];
+    var topics = ["Football", "Soccer", "Table Tennis", "Basketball", "Golf", "Tennis", "Baseball", "Cricket", "Volleyball", "Hockey"];
 
 
     // displaySportInfo function re-renders the HTML to display the appropriate content
-    function displaySportInfo() {
-
+    
+         $(document).on("click", ".gif-button", function(){
+            $(".insert-gif").empty();
         var sport = $(this).attr("data-name");
-        var queryURL = "https://api.giphy.com/v1/gifs/search?api_key=mzMLBbFrsHPBj3ndFptu7JolNKod8Dsw&q=" + sport + "&limit=10&offset=0&rating=G&lang=en";
+        var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + sport + "&api_key=mzMLBbFrsHPBj3ndFptu7JolNKod8Dsw&limit=10&lang=en";
 
         // Creates AJAX call for the specific movie button being clicked
         $.ajax({
@@ -14,37 +15,39 @@ $(document).ready(function () {
             method: "GET"
         }).then(function (response) {
             console.log(response);
-            for (var i = 0; i < 10; i++) {
-
+            var results = response.data;
+            
+            for (var i = 0; i < results.length; i++) {
                 // Creates a div to hold the movie
                 var sportsDiv = $("<div>");
-                $('#buttons-view').prepend(sportsDiv);
+                $('#form').append(sportsDiv);
+
                 // Retrieves the Rating Data
                 console.log(response.data[i].rating);
+                var rating = results[i].rating;
                 // Creates an element to have the rating displayed
-                var ratedText = $("<p>").text("Rating: " + response.data[i].rating);
+                var ratedText = $("<p>").text("Rating: " + rating);
                 // Displays the rating
-                sportsDiv.append(ratedText);
+                sportsDiv.prepend(ratedText);
 
-                //new image for images
-                var gif = $("<img class='gif'>");
-                //adds element src with paused gif
-                gif.attr("src", response.data[i].images.fixed_height_still.url);
+                //Retrieves the image Data
+                var sportImage = $("<img class='gif'>");
+                sportImage.attr("src", results[i].images.fixed_height_still.url);
                 //adds element data-state = still
-                gif.attr("data-state", "still");
+                sportImage.attr("data-state", "still");
                 //adds element data-still with paused gif
-                gif.attr("data-still", response.data[i].images.fixed_height_still.url)
+                sportImage.attr("data-still", results[i].images.fixed_height_still.url)
                 //adds element data-animate with moving gif
-                gif.attr("data-animate", response.data[i].images.fixed_height.url)
+                sportImage.attr("data-animate", results[i].images.fixed_height.url)
 
-                sportsDiv.append(gif);
+                sportsDiv.append(sportImage);
             }
-        }).fail(function(err) {
+        }).fail(function (err) {
             throw err;
         });
-    }
-
+    });
     //function stores input to data-search and create a button
+    // $("#buttons-view").on("click",function(){
     function createButton() {
         //delete prior gifs to add over gif buttons
         $("#buttons-view").empty();
@@ -68,6 +71,27 @@ $(document).ready(function () {
 
     // Calling the renderButtons function to display the initial list of movies
     createButton();
-    displaySportInfo();
 
+    $(document).on("click", ".gif", function() {
+
+        //when gif is paused, it can animate when clicked
+        var state = $(this).attr("data-state");
+    
+        if (state === 'still') {   
+            //create animate equals to value in element data-animate
+            var animate = $(this).attr("data-animate");
+    
+            //overwrite element src with variable animate
+            $(this).attr("src", animate);
+    
+            //overwrite element data-state to animate
+            $(this).attr("data-state", "animate");
+    
+        } else if (state != 'still') {
+            var still = $(this).attr("data-still");
+    
+            $(this).attr("src", still);
+            $(this).attr("data-state", "still");
+        }
+    });  
 });

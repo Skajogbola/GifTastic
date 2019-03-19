@@ -3,6 +3,8 @@ button{
     background-color: coral;
 }
 .insert-gif{
-	float:left;
 	display:inline;
+}
+#submitPress{
+    background-color:cornsilk;
 }
