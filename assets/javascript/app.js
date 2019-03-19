@@ -3,9 +3,9 @@ $(document).ready(function () {
 
 
     // displaySportInfo function re-renders the HTML to display the appropriate content
-    
-         $(document).on("click", ".gif-button", function(){
-            $(".insert-gif").empty();
+
+    $(document).on("click", ".gif-button", function () {
+        $(".insert-gif").empty();
         var sport = $(this).attr("data-name");
         var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + sport + "&api_key=mzMLBbFrsHPBj3ndFptu7JolNKod8Dsw&limit=10&lang=en";
 
@@ -16,7 +16,7 @@ $(document).ready(function () {
         }).then(function (response) {
             console.log(response);
             var results = response.data;
-            
+
             for (var i = 0; i < results.length; i++) {
                 // Creates a div to hold the movie
                 var sportsDiv = $("<div>");
@@ -72,26 +72,26 @@ $(document).ready(function () {
     // Calling the renderButtons function to display the initial list of movies
     createButton();
 
-    $(document).on("click", ".gif", function() {
+    $(document).on("click", ".gif", function () {
 
         //when gif is paused, it can animate when clicked
         var state = $(this).attr("data-state");
-    
-        if (state === 'still') {   
+
+        if (state === 'still') {
             //create animate equals to value in element data-animate
             var animate = $(this).attr("data-animate");
-    
+
             //overwrite element src with variable animate
             $(this).attr("src", animate);
-    
+
             //overwrite element data-state to animate
             $(this).attr("data-state", "animate");
-    
+
         } else if (state != 'still') {
             var still = $(this).attr("data-still");
-    
+
             $(this).attr("src", still);
             $(this).attr("data-state", "still");
         }
-    });  
+    });
 });
