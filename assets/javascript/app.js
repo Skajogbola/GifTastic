@@ -20,7 +20,7 @@ $(document).ready(function () {
             for (var i = 0; i < results.length; i++) {
                 // Creates a div to hold the movie
                 var sportsDiv = $("<div>");
-                $('#form').append(sportsDiv);
+                $('#buttons-view').append(sportsDiv);
 
                 // Retrieves the Rating Data
                 console.log(response.data[i].rating);
