@@ -15,3 +15,5 @@ The rating of each gif will also appear.
 Technical approach:
 
 To finish this task, I created the html and CSS (using Bootstrap) files and called the GIPHY API. I also used JavaScript and jQuery to change the HTML of my site.
+
+https://skajogbola.github.io/GifTastic/
